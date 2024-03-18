@@ -39,6 +39,6 @@ public class OrderPage extends BaseClass {
 
 	public LoginPage clickOnCheckOut() throws Throwable {
 		action.click(driver, proceedToCheckOut);
-		return new LoginPage();
+		return new LoginPage(driver);
 	}
 }

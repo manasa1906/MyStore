@@ -41,7 +41,7 @@ public class Action extends BaseClass {
 
 	}
 
-	public boolean findElement(WebDriver driver, WebElement ele) {
+	public static boolean findElement(WebDriver driver, WebElement ele) {
 		boolean flag = false;
 		try {
 			ele.isDisplayed();

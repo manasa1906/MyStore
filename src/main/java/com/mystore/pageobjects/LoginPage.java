@@ -1,5 +1,6 @@
 package com.mystore.pageobjects;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -23,7 +24,8 @@ public class LoginPage extends BaseClass {
 	@FindBy(name = "SubmitCreate")
 	private WebElement createNewAccountBtn;
 
-	public LoginPage() {
+	public LoginPage(WebDriver driver) {
+		this.driver = driver;
 		PageFactory.initElements(driver, this);
 	}
 
@@ -33,7 +35,7 @@ public class LoginPage extends BaseClass {
 		Action.type(password, pswd);
 		Action.JSClick(driver, signInBtn);
 		Thread.sleep(2000);
-		homePage = new HomePage();
+		homePage = new HomePage(driver);
 		return homePage;
 	}
 

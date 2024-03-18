@@ -1,56 +1,90 @@
 package com.mystore.base;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.annotations.BeforeSuite;
+import org.openqa.selenium.safari.SafariDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 
-import com.mystore.actiondriver.Action;
+import com.mystore.pageobjects.HomePage;
+import com.mystore.pageobjects.IndexPage;
+import com.mystore.pageobjects.LoginPage;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BaseClass {
-	public static WebDriver driver;
-	private static Properties prop;
 
-	@BeforeSuite
-	public void loadConfig() {
+	protected static WebDriver driver;
+	private static IndexPage indexPage;
+	private static LoginPage loginPage;
+	private static HomePage homePage;
 
+	@BeforeClass
+	public static void setUp() {
 		try {
-			prop = new Properties();
-			FileInputStream ip = new FileInputStream(System.getProperty("src/main/resources/config.properties"));
-			prop.load(ip);
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+			Properties properties = new Properties();
+			FileInputStream file = new FileInputStream("src/main/resources/config.properties");
+			properties.load(file);
+			String browser = properties.getProperty("browser");
+			driver = createDriver(browser);
+			driver.manage().window().maximize();
+			driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
+			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+			indexPage = new IndexPage(driver);
+			loginPage = new LoginPage(driver);
+			homePage = new HomePage(driver);
+			String url = properties.getProperty("url");
+			driver.get(url);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void launchApp(String browserName) {
+	public static WebDriver getDriver() {
+		return driver;
+	}
 
-		if (browserName.equalsIgnoreCase("Chrome")) {
+	public IndexPage getIndexPage() {
+		return indexPage;
+	}
+
+	public LoginPage getLoginPage() {
+		return loginPage;
+	}
+
+	public HomePage getHomePage() {
+		return homePage;
+	}
+
+	private static WebDriver createDriver(String browser) {
+		if (browser.equalsIgnoreCase("chrome")) {
 			WebDriverManager.chromedriver().setup();
-			driver = new ChromeDriver();
-		} else if (browserName.equalsIgnoreCase("FireFox")) {
+			return new ChromeDriver();
+		} else if (browser.equalsIgnoreCase("firefox")) {
 			WebDriverManager.firefoxdriver().setup();
-			driver = new FirefoxDriver();
-		} else if (browserName.equalsIgnoreCase("edge")) {
+			return new FirefoxDriver();
+		} else if (browser.equalsIgnoreCase("edge")) {
 			WebDriverManager.edgedriver().setup();
-			driver = new EdgeDriver();
+			return new EdgeDriver();
+		} else if (browser.equalsIgnoreCase("safari")) {
+			WebDriverManager.safaridriver().setup();
+			return new SafariDriver();
+		} else {
+			WebDriverManager.chromedriver().setup();
+			return new ChromeDriver();
 		}
+	}
 
-		driver.manage().window().maximize();
-		driver.manage().deleteAllCookies();
-		Action.implicitWait(driver, 20);
-		Action.pageLoadTimeOut(driver, 20);
-		driver.get(prop.getProperty("url"));
+	@AfterClass
+	public static void tearDown() {
+		if (driver != null) {
+			driver.quit();
+		}
 	}
 }

@@ -24,9 +24,15 @@ public class AddToCartPage extends BaseClass {
 
 	@FindBy(xpath = "//span[contains(text(),'Proceed to checkout')]")
 	private WebElement proceedToCheckOutBtn;
+	@FindBy(xpath = "//*[@id=\"color_14\"]")
+	private WebElement blue;
 
 	public AddToCartPage() {
 		PageFactory.initElements(driver, this);
+	}
+
+	public void clickBlue() {
+		action.click(driver, blue);
 	}
 
 	public void enterQuantity(String quantity1) throws Throwable {

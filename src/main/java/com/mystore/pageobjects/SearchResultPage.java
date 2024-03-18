@@ -8,7 +8,7 @@ import com.mystore.actiondriver.Action;
 import com.mystore.base.BaseClass;
 
 public class SearchResultPage extends BaseClass {
-	@FindBy(xpath = "//*[@id=\"center_column\"]//img")
+	@FindBy(xpath = "//a[@class='product_img_link' and @title='Faded Short Sleeve T-shirts']")
 	private WebElement productResult;
 
 	public SearchResultPage() {
@@ -21,6 +21,7 @@ public class SearchResultPage extends BaseClass {
 
 	public AddToCartPage clickOnProduct() throws Throwable {
 		Action.click(driver, productResult);
+
 		return new AddToCartPage();
 	}
 }
