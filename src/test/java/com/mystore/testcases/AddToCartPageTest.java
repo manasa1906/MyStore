@@ -18,9 +18,9 @@ public class AddToCartPageTest extends BaseClass {
 		indexPage = getIndexPage();
 		searchResultPage = indexPage.searchProduct("t-shirt");
 		addToCartPage = searchResultPage.clickOnProduct();
-		addToCartPage.clickBlue();
-		addToCartPage.enterQuantity("3");
+		//	addToCartPage.clickBlue();
 		addToCartPage.selectSize("L");
+		addToCartPage.enterQuantity("3");
 		addToCartPage.clickOnAddToCart();
 		boolean res = addToCartPage.validateAddtoCart();
 		Assert.assertTrue(res);

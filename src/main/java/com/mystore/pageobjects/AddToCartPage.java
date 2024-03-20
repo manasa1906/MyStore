@@ -13,7 +13,7 @@ public class AddToCartPage extends BaseClass {
 	@FindBy(id = "quantity_wanted")
 	private WebElement quantity;
 
-	@FindBy(name = "group_1")
+	@FindBy(id = "group_1")
 	private WebElement size;
 
 	@FindBy(xpath = "//span[text()='Add to cart']")
@@ -24,16 +24,17 @@ public class AddToCartPage extends BaseClass {
 
 	@FindBy(xpath = "//span[contains(text(),'Proceed to checkout')]")
 	private WebElement proceedToCheckOutBtn;
-	@FindBy(xpath = "//*[@id=\"color_14\"]")
-	private WebElement blue;
 
+	/*@FindBy(xpath = "//*[@id=\"color_14\"]")
+	private WebElement blue;
+	*/
 	public AddToCartPage() {
 		PageFactory.initElements(driver, this);
 	}
 
-	public void clickBlue() {
-		action.click(driver, blue);
-	}
+	/*public void clickBlue() {
+		Action.click(driver, blue);
+	}*/
 
 	public void enterQuantity(String quantity1) throws Throwable {
 		action.type(quantity, quantity1);

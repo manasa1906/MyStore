@@ -22,7 +22,7 @@ public class BaseClass {
 
 	protected static WebDriver driver;
 	private static IndexPage indexPage;
-	private static LoginPage loginPage;
+	protected static LoginPage loginPage;
 	private static HomePage homePage;
 
 	@BeforeClass
